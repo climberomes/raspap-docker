@@ -1,6 +1,22 @@
 #!/bin/bash
-iptables -I DOCKER-USER -i src_if -o dst_if -j ACCEPT
-iptables -t nat -C POSTROUTING -o eth0 -j MASQUERADE || iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-iptables -C FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT || iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -C FORWARD -i wlan0 -o eth0 -j ACCEPT || iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+
+set -e
+
+echo "[FIREWALL] Using upstream: $WAN_IFACE, AP: $AP_IFACE"
+
+# Allow Docker (optional)
+iptables -I DOCKER-USER -i "$WAN_IFACE" -o "$AP_IFACE" -j ACCEPT 2>/dev/null || true
+
+# NAT masquerade for upstream traffic
+iptables -t nat -C POSTROUTING -o "$WAN_IFACE" -j MASQUERADE 2>/dev/null || iptables -t nat -A POSTROUTING -o "$WAN_IFACE" -j MASQUERADE
+
+# Forward return traffic (upstream -> AP)
+iptables -C FORWARD -i "$WAN_IFACE" -o "$AP_IFACE" -m state --state RELATED,ESTABLISHED -j ACCEPT 2>/dev/null || iptables -A FORWARD -i "$WAN_IFACE" -o "$AP_IFACE" -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# Forward outgoing traffic (AP -> upstream)
+iptables -C FORWARD -i "$AP_IFACE" -o "$WAN_IFACE" -j ACCEPT 2>/dev/null || iptables -A FORWARD -i "$AP_IFACE" -o "$WAN_IFACE" -j ACCEPT
+
+echo "[FIREWALL] Rules applied (interfaces may appear later, rules stay active)."
+
+# Output current rules (optional, for debugging)
 iptables-save
