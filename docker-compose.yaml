@@ -7,15 +7,15 @@ services:
     network_mode: host
     cgroup: host # uncomment when using an ARM device
     environment:
-      - NORDVPN_TOKEN: "${NORDVPN_TOKEN}"    # Inject token at runtime
-      - WAN_IFACE: "wlan0"                   # Upstream interface
-      - AP_IFACE: "wlan1"                    # AP interface
-      - RASPAP_SSID: "${RASPAP_SSID}"
-      - RASPAP_SSID_PASS: "${RASPAP_SSID_PASS}"
-      - RASPAP_COUNTRY: "US"
-      - RASPAP_WEBGUI_USER: "${RASPAP_WEBGUI_USER}"
-      - RASPAP_WEBGUI_PASS: "${RASPAP_WEBGUI_PASS}"
-      - RASPAP_WEBGUI_PORT: "80"
+      - NORDVPN_TOKEN=${NORDVPN_TOKEN}    # Inject token at runtime
+      - WAN_IFACE=wlan0                   # Upstream interface. Need to change this in RASPAP when it starts up
+      - AP_IFACE=wlan1                    # AP interface
+      - RASPAP_SSID=${RASPAP_SSID}
+      - RASPAP_SSID_PASS=${RASPAP_SSID_PASS}
+      - RASPAP_COUNTRY=US
+      - RASPAP_WEBGUI_USER=${RASPAP_WEBGUI_USER}
+      - RASPAP_WEBGUI_PASS=${RASPAP_WEBGUI_PASS}
+      - RASPAP_WEBGUI_PORT=80
     cap_add:
       - SYS_ADMIN
       - NET_ADMIN
