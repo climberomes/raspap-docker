@@ -57,7 +57,8 @@ RUN curl -sL https://install.raspap.com | bash -s -- --yes --wireguard 1 --openv
 # --------------------------
 # Copy custom scripts
 # --------------------------
-COPY wpa_supplicant.conf /etc/wpa_supplicant/
+COPY 70-persistent-net.rules /etc/udev/rules.d/70-persistent-net.rules
+COPY wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 COPY password-generator.php /home/password-generator.php
 COPY firewall-rules.sh /home/firewall-rules.sh
 COPY env-setup.sh /home/env-setup.sh

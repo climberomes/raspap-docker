@@ -4,7 +4,21 @@ set -e
 
 # Start NordVPN daemon manually
 /etc/init.d/nordvpn start || true
-sleep 2  # give it a moment
+
+# Wait for daemon to be ready (up to 60 seconds)
+echo "[NORDVPN] Waiting for daemon to be ready..."
+for i in {1..60}; do
+  if nordvpn account &>/dev/null || nordvpn status &>/dev/null; then
+    echo "[NORDVPN] Daemon is ready!"
+    break
+  fi
+  if [ $i -eq 60 ]; then
+    echo "[NORDVPN] ERROR: Daemon failed to start after 60 seconds"
+    exit 1
+  fi
+  echo "[NORDVPN] Waiting... ($i/60)"
+  sleep 1
+done
 
 # Login
 echo "[NORDVPN] Logging in..."
