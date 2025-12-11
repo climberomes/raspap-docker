@@ -40,7 +40,7 @@ VOLUME [ "/sys/fs/cgroup" ]
 # --------------------------
 # NordVPN
 # --------------------------
-RUN curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | bash -s -- --yes
+RUN curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | bash -s -- -n
 
 # --------------------------
 # RaspAP
