@@ -13,7 +13,7 @@ services:
     environment:
       - NORDVPN_TOKEN=${NORDVPN_TOKEN}    # Inject token at runtime
       - WAN_IFACE=wlan0                   # Upstream interface. Need to change this in RASPAP when it starts up
-      - AP_IFACE=wlx7419f816abb           # AP interface
+      - AP_IFACE=wlx7419f816abb1          # AP interface
       - RASPAP_SSID=${RASPAP_SSID}
       - RASPAP_SSID_PASS=${RASPAP_SSID_PASS}
       - RASPAP_COUNTRY=US
