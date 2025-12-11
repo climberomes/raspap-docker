@@ -12,19 +12,22 @@ services:
     cgroup: host # uncomment when using an ARM device
     environment:
       - NORDVPN_TOKEN=${NORDVPN_TOKEN}    # Inject token at runtime
-      - WAN_IFACE=wlan0                   # Upstream interface. Need to change this in RASPAP when it starts up
-      - AP_IFACE=wlx7419f816abb1          # AP interface
+      - WAN_IFACE=wlan1                   # Upstream interface. Need to change this in RASPAP when it starts up
+      - RASPAP_client_INTERFACE=wlan1
+      - AP_IFACE=wlan0                    # AP interface
+      - RASPAP_hostapd_INTERFACE=wlan0
       - RASPAP_SSID=${RASPAP_SSID}
       - RASPAP_SSID_PASS=${RASPAP_SSID_PASS}
       - RASPAP_COUNTRY=US
       - RASPAP_WEBGUI_USER=${RASPAP_WEBGUI_USER}
       - RASPAP_WEBGUI_PASS=${RASPAP_WEBGUI_PASS}
       - RASPAP_WEBGUI_PORT=80
-      - RASPAP_hostapd_INTERFACE=wlx7419f816abb1
-      - RASPAP_client_INTERFACE=wlan0
     cap_add:
       - SYS_ADMIN
       - NET_ADMIN
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "0"
+      net.ipv6.conf.default.disable_ipv6: "0"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     restart: unless-stopped
