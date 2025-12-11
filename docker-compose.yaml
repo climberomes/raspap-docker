@@ -2,7 +2,11 @@ services:
   raspap:
     container_name: raspap
     #image: ghcr.io/raspap/raspap-docker:latest
-    build: .
+    build:
+      context: .
+      args:
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file: .env
     privileged: true
     network_mode: host
     cgroup: host # uncomment when using an ARM device
@@ -16,7 +20,7 @@ services:
       - RASPAP_WEBGUI_USER=${RASPAP_WEBGUI_USER}
       - RASPAP_WEBGUI_PASS=${RASPAP_WEBGUI_PASS}
       - RASPAP_WEBGUI_PORT=80
-      - RASPAP_hostapd_INTERFACE=wlx7419f816abb
+      - RASPAP_hostapd_INTERFACE=wlx7419f816abb1
       - RASPAP_client_INTERFACE=wlan0
     cap_add:
       - SYS_ADMIN

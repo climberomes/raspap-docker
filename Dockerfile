@@ -9,6 +9,12 @@ FROM debian:trixie
 ENV container=docker LC_ALL=C DEBIAN_FRONTEND=noninteractive
 
 # --------------------------
+# Github Token
+# --------------------------
+ARG GITHUB_TOKEN
+ENV GITHUB_TOKEN=${GITHUB_TOKEN}
+
+# --------------------------
 # Install dependencies
 # --------------------------
 RUN apt-get update && apt-get install -y \
@@ -45,7 +51,8 @@ RUN curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh | bash -s -- -
 # --------------------------
 # RaspAP
 # --------------------------
-RUN curl -sL https://install.raspap.com | bash -s -- --yes --wireguard 1 --openvpn 1 --adblock 1 --rest 1 --check 0 --provider 3
+RUN curl -sL https://install.raspap.com | bash -s -- --yes --wireguard 1 --openvpn 1 --adblock 1 --rest 1 --check 0 --provider 3 \
+    --repo climberomes/raspap-webgui --token "$GITHUB_TOKEN"
 
 # --------------------------
 # Copy custom scripts
