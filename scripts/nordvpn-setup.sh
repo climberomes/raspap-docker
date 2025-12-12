@@ -3,7 +3,9 @@
 set -e
 
 # Start NordVPN daemon manually
-/etc/init.d/nordvpn start || true
+echo "[NORDVPN] Enabling and starting NordVPN daemon..."
+systemctl enable nordvpnd || true
+systemctl start nordvpnd || true
 
 # Wait for daemon to be ready (up to 60 seconds)
 echo "[NORDVPN] Waiting for daemon to be ready..."
@@ -20,9 +22,13 @@ for i in {1..60}; do
   sleep 1
 done
 
-# Login
-echo "[NORDVPN] Logging in..."
-nordvpn login --token "$NORDVPN_TOKEN"
+# Check if already logged in
+if nordvpn account &>/dev/null; then
+  echo "[NORDVPN] Already logged in"
+else
+  echo "[NORDVPN] Logging in..."
+  nordvpn login --token "$NORDVPN_TOKEN"
+fi
 
 # Whitelist
 echo "[NORDVPN] Adding whitelists..."

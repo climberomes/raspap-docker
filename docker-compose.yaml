@@ -12,7 +12,7 @@ services:
     cgroup: host # uncomment when using an ARM device
     environment:
       - NORDVPN_TOKEN=${NORDVPN_TOKEN}    # Inject token at runtime
-      - WAN_IFACE=wlan1                   # Upstream interface. Need to change this in RASPAP when it starts up
+      - WAN_IFACE=wlx7419f816abb1         # Upstream interface. Need to change this in RASPAP when it starts up
       - AP_IFACE=wlan0                    # AP interface
       - RASPAP_SSID=${RASPAP_SSID}
       - RASPAP_SSID_PASS=${RASPAP_SSID_PASS}

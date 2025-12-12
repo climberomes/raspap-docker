@@ -1,0 +1,14 @@
+[Match]
+Name=wlx7419f816abb1
+[Network]
+RouteMetric=50
+
+[Match]
+Name=wlan0
+[Network]
+RouteMetric=100
+
+[Match]
+Name=end0
+[Network]
+RouteMetric=200

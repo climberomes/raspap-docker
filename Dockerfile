@@ -57,13 +57,21 @@ RUN curl -sL https://install.raspap.com | bash -s -- --yes --wireguard 1 --openv
 # --------------------------
 # Copy custom scripts
 # --------------------------
-COPY 70-persistent-net.rules /etc/udev/rules.d/70-persistent-net.rules
-COPY wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
-COPY password-generator.php /home/password-generator.php
-COPY firewall-rules.sh /home/firewall-rules.sh
-COPY env-setup.sh /home/env-setup.sh
-COPY nordvpn-setup.sh /home/nordvpn-setup.sh
-RUN chmod +x /home/firewall-rules.sh /home/env-setup.sh /home/nordvpn-setup.sh
+COPY setup-files/50-custom-metrics.network /etc/systemd/network/50-custom-metrics.network
+#COPY 70-persistent-net.rules /etc/udev/rules.d/70-persistent-net.rules
+COPY setup-files/nordvpn-autoconnect.service /etc/systemd/system/nordvpn-autoconnect.service
+COPY setup-files/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+COPY setup-files/password-generator.php /home/password-generator.php
+COPY scripts/firewall-rules.sh /home/firewall-rules.sh
+COPY scripts/env-setup.sh /home/env-setup.sh
+COPY scripts/nordvpn-setup.sh /home/nordvpn-setup.sh
+COPY scripts/entrypoint.sh /home/entrypoint.sh
+
+# --------------------------
+# Run custom scripts
+# --------------------------
+RUN chmod +x /home/firewall-rules.sh /home/env-setup.sh /home/nordvpn-setup.sh /home/entrypoint.sh
+RUN systemctl enable nordvpn-autoconnect.service
 
 # --------------------------
 # Expose RaspAP UI port
@@ -73,4 +81,4 @@ EXPOSE 80 8081
 # --------------------------
 # Startup CMD
 # --------------------------
-CMD [ "/bin/bash", "-c", "/home/env-setup.sh && /home/firewall-rules.sh && /home/nordvpn-setup.sh && exec /sbin/init" ]
+CMD ["/home/entrypoint.sh"]

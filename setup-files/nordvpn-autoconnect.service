@@ -1,0 +1,16 @@
+[Unit]
+Description=NordVPN Auto-connect
+After=nordvpnd.service network-online.target
+Wants=network-online.target
+Requires=nordvpnd.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/nordvpn-setup.sh
+EnvironmentFile=/etc/nordvpn.env
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
