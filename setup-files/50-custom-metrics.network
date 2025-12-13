@@ -1,10 +1,10 @@
 [Match]
-Name=wlx7419f816abb1
+Name=wlan0
 [Network]
 RouteMetric=50
 
 [Match]
-Name=wlan0
+Name=wlan1
 [Network]
 RouteMetric=100
 

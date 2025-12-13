@@ -2,6 +2,9 @@
 
 set -e
 
+export WAN_IFACE=wlan0
+export AP_IFACE=wlan1
+
 echo "[FIREWALL] Using upstream: $WAN_IFACE, AP: $AP_IFACE"
 
 # Allow Docker (optional)

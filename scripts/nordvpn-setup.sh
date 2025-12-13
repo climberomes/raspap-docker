@@ -37,4 +37,9 @@ nordvpn whitelist add port 53 || true
 nordvpn whitelist add port 67 || true
 nordvpn whitelist add subnet 192.168.1.0/24 || true
 
+nordvpn whitelist add port 22 \
+nordvpn whitelist add port 53 \
+nordvpn whitelist add port 67 \
+nordvpn whitelist add subnet 192.168.1.0/24
+
 echo "[NORDVPN] Setup complete."
